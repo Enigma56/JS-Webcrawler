@@ -1,8 +1,20 @@
-import { getURLsFromHTML } from "./crawl.js"
-const test_htmlDocument = '<!DOCTYPE html><p>Hello world</p><a href="https://blog.boot.dev">Learn Backend Development</a>'
+import { argv } from 'node:process'
 
-const elements = getURLsFromHTML(test_htmlDocument, 'blog.boot.dev')
-console.log(elements[0])
+import { crawlPage } from "./crawl.js"
 
-console.log('Hello World!')
+const main = () => {
+    let args = argv.slice(2)
+    
+    if(args.length < 1){
+         console.log("too little args!");  return;
+    }
+    if(args.length > 1){
+        console.log("too many args!");  return;
+    } 
+   
+    crawlPage(args[0])
+        .then((pages) => console.log(pages))
+        .catch((error) => console.log(error))
+}
 
+main()
